@@ -25,16 +25,16 @@
 
   <properties>
     <!-- dependency versions -->
-    <dep.slf4j>1.6.1</dep.slf4j>
-    <dep.logback>0.9.29</dep.logback>
-    <dep.junit>4.8.2</dep.junit>
+    <dep.slf4j>1.6.4</dep.slf4j>
+    <dep.logback>1.0.0</dep.logback>
+    <dep.junit>4.10</dep.junit>
     <dep.easymock>3.0</dep.easymock>
 
     <dep.guice>3.0</dep.guice>
-    <dep.jersey>1.8</dep.jersey>
-    <dep.jetty>7.4.2.v20110526</dep.jetty>
+    <dep.jersey>1.10</dep.jersey>
+    <dep.jetty>7.5.4.v20111024</dep.jetty>
 
-    <dep.jackson>1.8.5</dep.jackson>
+    <dep.jackson>1.9.2</dep.jackson>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -65,6 +65,7 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${dep.logback}</version>
+      <optional>true</optional>
       <!-- find bugs likes this to be there at compile time,
 probably because of use from slf4j -->
     </dependency>
@@ -80,18 +81,21 @@ probably because of use from slf4j -->
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
       <version>${dep.logback}</version>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>log4j-over-slf4j</artifactId>
       <version>${dep.slf4j}</version>
       <scope>runtime</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>${dep.slf4j}</version>
       <scope>runtime</scope>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -169,7 +173,7 @@ probably because of use from slf4j -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>r09</version>
+      <version>10.0.1</version>
     </dependency>
   </dependencies>
 
