@@ -16,9 +16,9 @@
 
 package com.teamlazerbeez.http.sandwich;
 
-import com.google.common.collect.ImmutableMap;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.google.inject.Scopes;
 import com.google.inject.servlet.ServletModule;
-import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class SandwichServletModule extends ServletModule {
@@ -27,7 +27,12 @@ public class SandwichServletModule extends ServletModule {
         bind(SandwichStatsResource.class);
         bind(SandwichMakerResource.class);
 
+        // hook Jersey into Guice Servlet
         bind(GuiceContainer.class);
-        serve("/*").with(GuiceContainer.class, ImmutableMap.of(JSONConfiguration.FEATURE_POJO_MAPPING, "true"));
+
+        // hook Jackson into Jersey as the POJO <-> JSON mapper
+        bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
+
+        serve("/*").with(GuiceContainer.class);
     }
 }

@@ -16,7 +16,7 @@
 
 package com.teamlazerbeez.http.sandwich;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.annotation.concurrent.NotThreadSafe;
 

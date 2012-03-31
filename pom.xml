@@ -26,15 +26,15 @@
   <properties>
     <!-- dependency versions -->
     <dep.slf4j>1.6.4</dep.slf4j>
-    <dep.logback>1.0.0</dep.logback>
+    <dep.logback>1.0.1</dep.logback>
     <dep.junit>4.10</dep.junit>
     <dep.easymock>3.0</dep.easymock>
 
     <dep.guice>3.0</dep.guice>
-    <dep.jersey>1.10</dep.jersey>
-    <dep.jetty>7.5.4.v20111024</dep.jetty>
+    <dep.jersey>1.12</dep.jersey>
+    <dep.jetty>7.6.2.v20120308</dep.jetty>
 
-    <dep.jackson>1.9.2</dep.jackson>
+    <dep.jackson>2.0.0</dep.jackson>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -137,25 +137,30 @@ probably because of use from slf4j -->
       <artifactId>jersey-guice</artifactId>
       <version>${dep.jersey}</version>
     </dependency>
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
-      <version>${dep.jersey}</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>com.sun.jersey</groupId>-->
+      <!--<artifactId>jersey-json</artifactId>-->
+      <!--<version>${dep.jersey}</version>-->
+    <!--</dependency>-->
 
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
       <version>${dep.jackson}</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
       <version>${dep.jackson}</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-jaxrs</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${dep.jackson}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${dep.jackson}</version>
     </dependency>
 
@@ -173,7 +178,7 @@ probably because of use from slf4j -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>10.0.1</version>
+      <version>11.0.2</version>
     </dependency>
   </dependencies>
 
