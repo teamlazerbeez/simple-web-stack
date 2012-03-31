@@ -20,6 +20,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
+import com.teamlazerbeez.http.metrics.JerseyMetricsModule;
 import com.teamlazerbeez.http.sandwich.SandwichModule;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.MetricsRegistry;
@@ -33,10 +34,14 @@ import java.util.EnumSet;
 
 public class HttpServerMain {
     public static void main(String[] args) throws Exception {
-        Injector injector = Guice.createInjector(new SandwichModule(), new AbstractModule() {
+        Injector injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
                 binder().requireExplicitBindings();
+
+                install(new SandwichModule());
+                install(new JerseyMetricsModule());
+
                 bind(GuiceFilter.class);
 
                 bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());

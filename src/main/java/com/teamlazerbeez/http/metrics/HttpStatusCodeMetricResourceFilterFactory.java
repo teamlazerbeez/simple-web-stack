@@ -41,7 +41,7 @@ public final class HttpStatusCodeMetricResourceFilterFactory implements Resource
         }
     }
 
-    private String getMetricBaseName(AbstractResourceMethod am) {
+    static String getMetricBaseName(AbstractResourceMethod am) {
 
         String metricId = getPathWithoutSurroundingSlashes(am.getResource().getPath());
 
@@ -69,7 +69,7 @@ public final class HttpStatusCodeMetricResourceFilterFactory implements Resource
         return metricId;
     }
 
-    private String getPathWithoutSurroundingSlashes(@Nullable PathValue pathValue) {
+    private static String getPathWithoutSurroundingSlashes(@Nullable PathValue pathValue) {
         if (pathValue == null) {
             return "";
         }
