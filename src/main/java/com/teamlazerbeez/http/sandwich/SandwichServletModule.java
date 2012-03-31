@@ -19,7 +19,12 @@ package com.teamlazerbeez.http.sandwich;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.ServletModule;
+import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import com.teamlazerbeez.http.metrics.HttpStatusCodeMetricResourceFilterFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SandwichServletModule extends ServletModule {
     @Override
@@ -33,6 +38,9 @@ public class SandwichServletModule extends ServletModule {
         // hook Jackson into Jersey as the POJO <-> JSON mapper
         bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
 
-        serve("/*").with(GuiceContainer.class);
+        Map<String, String> guiceContainerConfig = new HashMap<String, String>();
+        guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
+            HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
+        serve("/*").with(GuiceContainer.class, guiceContainerConfig);
     }
 }

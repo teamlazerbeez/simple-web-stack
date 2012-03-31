@@ -21,6 +21,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import com.teamlazerbeez.http.sandwich.SandwichModule;
+import com.yammer.metrics.Metrics;
+import com.yammer.metrics.core.MetricsRegistry;
 import org.eclipse.jetty.server.DispatcherType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -36,6 +38,8 @@ public class HttpServerMain {
             protected void configure() {
                 binder().requireExplicitBindings();
                 bind(GuiceFilter.class);
+
+                bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
             }
         });
 
