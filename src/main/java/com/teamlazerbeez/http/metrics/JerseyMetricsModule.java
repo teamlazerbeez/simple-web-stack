@@ -6,5 +6,6 @@ public final class JerseyMetricsModule extends AbstractModule{
     @Override
     protected void configure() {
         bind(TimingResourceMethodDispatchAdapter.class);
+        bind(HttpStatusCodeMetricResourceFilterFactory.class);
     }
 }

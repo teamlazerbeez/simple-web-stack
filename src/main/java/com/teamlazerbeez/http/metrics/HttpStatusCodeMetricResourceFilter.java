@@ -5,8 +5,8 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
 import com.sun.jersey.spi.container.ResourceFilter;
-import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.Counter;
+import com.yammer.metrics.core.MetricsRegistry;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,8 +18,10 @@ final class HttpStatusCodeMetricResourceFilter implements ResourceFilter, Contai
     private final Class<?> resourceClass;
 
     private final String metricBaseName;
+    private MetricsRegistry metricsRegistry;
 
-    HttpStatusCodeMetricResourceFilter(String metricBaseName, Class<?> resourceClass) {
+    HttpStatusCodeMetricResourceFilter(MetricsRegistry metricsRegistry, String metricBaseName, Class<?> resourceClass) {
+        this.metricsRegistry = metricsRegistry;
         this.metricBaseName = metricBaseName;
         this.resourceClass = resourceClass;
     }
@@ -43,7 +45,7 @@ final class HttpStatusCodeMetricResourceFilter implements ResourceFilter, Contai
         if (counter == null) {
             // despite the method name, this actually will return a previously created metric with the same name
             // TODO make this use an injected registry -- Guice instantiation of ResourceFilterFactory doesn't work yet
-            Counter newCounter = Metrics.defaultRegistry().newCounter(resourceClass, metricBaseName + " " + status + " counter");
+            Counter newCounter = metricsRegistry.newCounter(resourceClass, metricBaseName + " " + status + " counter");
             Counter otherCounter = counters.putIfAbsent(status, newCounter);
             if (otherCounter != null) {
                 // we lost the race to set that counter, but shouldn't create a duplicate since Metrics.newCounter will do the right thing

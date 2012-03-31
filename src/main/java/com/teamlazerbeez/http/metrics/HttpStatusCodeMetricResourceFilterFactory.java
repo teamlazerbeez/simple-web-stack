@@ -1,6 +1,7 @@
 package com.teamlazerbeez.http.metrics;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sun.jersey.api.model.AbstractMethod;
 import com.sun.jersey.api.model.AbstractResourceMethod;
@@ -9,6 +10,7 @@ import com.sun.jersey.api.model.AbstractSubResourceMethod;
 import com.sun.jersey.api.model.PathValue;
 import com.sun.jersey.spi.container.ResourceFilter;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
+import com.yammer.metrics.core.MetricsRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,13 @@ import java.util.List;
 public final class HttpStatusCodeMetricResourceFilterFactory implements ResourceFilterFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpStatusCodeMetricResourceFilterFactory.class);
+
+    private final MetricsRegistry metricsRegistry;
+
+    @Inject
+    HttpStatusCodeMetricResourceFilterFactory(MetricsRegistry metricsRegistry) {
+        this.metricsRegistry = metricsRegistry;
+    }
 
     @Override
     public List<ResourceFilter> create(AbstractMethod am) {
@@ -34,7 +43,7 @@ public final class HttpStatusCodeMetricResourceFilterFactory implements Resource
 
             return Lists
                 .<ResourceFilter>newArrayList(
-                    new HttpStatusCodeMetricResourceFilter(metricBaseName, resourceClass));
+                    new HttpStatusCodeMetricResourceFilter(metricsRegistry, metricBaseName, resourceClass));
         } else {
             logger.warn("Got an unexpected instance of " + am.getClass().getName() + ": " + am);
             return null;
