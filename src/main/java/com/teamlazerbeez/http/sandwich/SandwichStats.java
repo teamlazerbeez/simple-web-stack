@@ -16,11 +16,11 @@
 
 package com.teamlazerbeez.http.sandwich;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
-import com.yammer.metrics.core.Counter;
-import com.yammer.metrics.core.Gauge;
-import com.yammer.metrics.core.MetricsRegistry;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Singleton;
@@ -36,15 +36,16 @@ public class SandwichStats {
     private final Counter pbCounter;
 
     @Inject
-    SandwichStats(MetricsRegistry metricsRegistry) {
-        metricsRegistry.newGauge(SandwichStats.class, "sandwich-count", new Gauge<Integer>() {
-            @Override
-            public Integer value() {
-                return sandwichesMade;
-            }
-        });
-        jamCounter = metricsRegistry.newCounter(SandwichStats.class, "grams-of-jam");
-        pbCounter = metricsRegistry.newCounter(SandwichStats.class, "grams-of-pb");
+    SandwichStats(MetricRegistry metricRegistry) {
+        metricRegistry.register(MetricRegistry.name(SandwichStats.class, "sandwich", "count"),
+                new Gauge<Integer>() {
+                    @Override
+                    public Integer getValue() {
+                        return sandwichesMade;
+                    }
+                });
+        jamCounter = metricRegistry.counter(MetricRegistry.name(SandwichStats.class, "grams-of-jam"));
+        pbCounter = metricRegistry.counter(MetricRegistry.name(SandwichStats.class, "grams-of-pb"));
     }
 
     synchronized void recordSandwich(Sandwich sandwich) {

@@ -16,14 +16,13 @@
 
 package com.teamlazerbeez.http;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import com.teamlazerbeez.http.metrics.JerseyMetricsModule;
 import com.teamlazerbeez.http.sandwich.SandwichModule;
-import com.yammer.metrics.Metrics;
-import com.yammer.metrics.core.MetricsRegistry;
 import org.eclipse.jetty.server.DispatcherType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -43,8 +42,7 @@ public class HttpServerMain {
                 install(new JerseyMetricsModule());
 
                 bind(GuiceFilter.class);
-
-                bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
+                bind(MetricRegistry.class).toInstance(new MetricRegistry());
             }
         });
 
