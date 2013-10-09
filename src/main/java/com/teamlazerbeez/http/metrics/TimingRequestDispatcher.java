@@ -1,9 +1,9 @@
 package com.teamlazerbeez.http.metrics;
 
+import com.codahale.metrics.Timer;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.spi.dispatch.RequestDispatcher;
-import com.yammer.metrics.core.Timer;
-import com.yammer.metrics.core.TimerContext;
+
 
 final class TimingRequestDispatcher implements RequestDispatcher {
 
@@ -18,7 +18,7 @@ final class TimingRequestDispatcher implements RequestDispatcher {
 
     @Override
     public void dispatch(Object resource, HttpContext context) {
-        final TimerContext time = timer.time();
+        final Timer.Context time = timer.time();
 
         try {
             wrappedDispatcher.dispatch(resource, context);

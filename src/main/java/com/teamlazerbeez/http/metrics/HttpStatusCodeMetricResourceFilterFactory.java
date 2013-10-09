@@ -1,16 +1,12 @@
 package com.teamlazerbeez.http.metrics;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.sun.jersey.api.model.AbstractMethod;
-import com.sun.jersey.api.model.AbstractResourceMethod;
-import com.sun.jersey.api.model.AbstractSubResourceLocator;
-import com.sun.jersey.api.model.AbstractSubResourceMethod;
-import com.sun.jersey.api.model.PathValue;
+import com.sun.jersey.api.model.*;
 import com.sun.jersey.spi.container.ResourceFilter;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
-import com.yammer.metrics.core.MetricsRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +18,11 @@ public final class HttpStatusCodeMetricResourceFilterFactory implements Resource
 
     private static final Logger logger = LoggerFactory.getLogger(HttpStatusCodeMetricResourceFilterFactory.class);
 
-    private final MetricsRegistry metricsRegistry;
+    private final MetricRegistry metricRegistry;
 
     @Inject
-    HttpStatusCodeMetricResourceFilterFactory(MetricsRegistry metricsRegistry) {
-        this.metricsRegistry = metricsRegistry;
+    HttpStatusCodeMetricResourceFilterFactory(MetricRegistry metricRegistry) {
+        this.metricRegistry = metricRegistry;
     }
 
     @Override
@@ -43,7 +39,7 @@ public final class HttpStatusCodeMetricResourceFilterFactory implements Resource
 
             return Lists
                 .<ResourceFilter>newArrayList(
-                    new HttpStatusCodeMetricResourceFilter(metricsRegistry, metricBaseName, resourceClass));
+                    new HttpStatusCodeMetricResourceFilter(metricRegistry, metricBaseName, resourceClass));
         } else {
             logger.warn("Got an unexpected instance of " + am.getClass().getName() + ": " + am);
             return null;
