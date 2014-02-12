@@ -16,6 +16,7 @@
 
 package com.teamlazerbeez.http;
 
+import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -46,7 +47,6 @@ public class HttpServerMain {
             }
         });
 
-
         Server server = new Server(8080);
 
         ServletContextHandler handler = new ServletContextHandler();
@@ -59,5 +59,8 @@ public class HttpServerMain {
 
         server.setHandler(handler);
         server.start();
+
+        JmxReporter reporter = JmxReporter.forRegistry(injector.getInstance(MetricRegistry.class)).build();
+        reporter.start();
     }
 }
